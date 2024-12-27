@@ -1,14 +1,17 @@
 import { createStore } from 'vuex'
+import Vue from 'vue';
+import axios from 'axios';
+
 
 export default createStore({
   state: {
-  },
-  getters: {
+    users: [],
   },
   mutations: {
+
   },
   actions: {
+
   },
-  modules: {
-  }
-})
+  getters: {},
+});
