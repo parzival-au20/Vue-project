@@ -4,17 +4,17 @@ import { definePreset } from '@primevue/themes';
         const Noir = definePreset(Aura, {
             semantic: {
                 primary: {
-                50: '{surface.50}',
-                100: '{surface.100}',
-                200: '{surface.200}',
-                300: '{surface.300}',
-                400: '{surface.400}',
-                500: '{surface.500}',
-                600: '{surface.600}',
-                700: '{surface.700}',
-                800: '{surface.800}',
-                900: '{surface.900}',
-                950: '{surface.950}'
+                    50: '{indigo.50}',
+                    100: '{indigo.100}',
+                    200: '{indigo.200}',
+                    300: '{indigo.300}',
+                    400: '{indigo.400}',
+                    500: '{indigo.500}',
+                    600: '{indigo.600}',
+                    700: '{indigo.700}',
+                    800: '{indigo.800}',
+                    900: '{indigo.900}',
+                    950: '{indigo.950}'
                 },
                 colorScheme: {
                     light: {
@@ -50,4 +50,3 @@ import { definePreset } from '@primevue/themes';
         });
 
         export default Noir;
-        
