@@ -11,39 +11,43 @@
         <hr class="border  border-[#D8D9DD] mx-4 mt-4" />
         <Menu class="flex flex-1 flex-col w-64" />
       </div>
-      <div class="w-full mr-3">
-        <TodosList />
-      </div>
+        <PostsList />
+
   </div>
 </template>
 
-  <script>
-  import { useTodoStore } from '@/store/todos';
+<script>
+  import { usePostStore } from '@/store/posts';
   import { useUserStore } from '@/store/users';
   import { computed, onMounted, watch  } from 'vue';
   import Menu from '@/components/MenuComp.vue';
-  import TodosList from '@/components/TodosList.vue';
+  import PostsList from '@/components/PostsList.vue';
+  import Divider from 'primevue/divider';
 
-  export default {
+export default {
     components: {
-    Menu,
-    TodosList,
-  },
+        Menu,
+        PostsList,
+        Divider,
+    },
     setup() {
-      const todoStore = useTodoStore();
+      const postStore = usePostStore();
       const userStore = useUserStore();
       const selectedUser = computed(() => userStore.selectedUser);
       const userId = computed(() => selectedUser.value?.id);
 
       watch(userId, async (newUserId) => {
       if (newUserId) {
-        await todoStore.fetchTodos(newUserId); // userId geldiğinde todos verilerini çek
+        await postStore.fetchPosts(newUserId); // userId geldiğinde todos verilerini çek
       }
     }, { immediate: true }); // immediate: true, bileşen yüklendiği anda da çağırılır
 
-      const todos = computed(() => todoStore.allTodos); // Reaktif olarak yapılacakları al
-
-      return { todos, selectedUser };
+      return { selectedUser };
     },
-  };
-  </script>
+
+}
+</script>
+
+<style>
+
+</style>

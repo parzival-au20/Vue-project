@@ -5,10 +5,14 @@ import store from './store'
 import PrimeVue from 'primevue/config';
 import { createPinia } from 'pinia';
 import { PrimeIcons } from '@primevue/core/api';
+import piniaPersist from 'pinia-plugin-persist';
+import ToastService from "primevue/toastservice";
+
 
 import 'primeicons/primeicons.css'
 import "./style.css";
 import "./flags.css";
+
 
 import AppState from './plugins/appState.js';
 import ThemeSwitcher from './components/ThemeSwitcher.vue';
@@ -16,9 +20,9 @@ import Noir from './presets/Noir.js';
 
 import ConfirmationService from 'primevue/confirmationservice';
 import DialogService from 'primevue/dialogservice';
-import ToastService from 'primevue/toastservice';
 
 const pinia = createPinia();
+pinia.use(piniaPersist);
 
 const app = createApp(App);
 
@@ -54,6 +58,8 @@ app.use(PrimeVue, {
         tooltip: 1100       //tooltip
     }
 });
+
+app.use(PrimeVue)
 app.use(PrimeIcons)
 app.use(store)
 app.use(router)
@@ -63,5 +69,7 @@ app.use(ConfirmationService);
 app.use(ToastService);
 app.use(DialogService);
 
+
+app.use(pinia);
 app.component('ThemeSwitcher', ThemeSwitcher);
-app.use(PrimeVue).mount('#app');
+app.mount('#app');
