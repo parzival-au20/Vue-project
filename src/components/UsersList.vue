@@ -97,4 +97,9 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
+@media (min-width: 1024px) {
+  .card-container {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+}
 </style>

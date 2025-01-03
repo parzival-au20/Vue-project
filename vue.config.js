@@ -3,7 +3,14 @@ const { defineConfig } = require('@vue/cli-service');
 module.exports = defineConfig({
   publicPath: '/',
   devServer: {
-    proxy: 'http://localhost:4000', // Backend sunucusu URL'si
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:8000',// Backend sunucusu URL'si
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: { '^/api': '' },
+      },
+    },
   },
   lintOnSave: false, // Linter hatalarını kaydetmeyi devre dışı bırak
   configureWebpack: {

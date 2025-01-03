@@ -5,12 +5,23 @@
     </div>
     <ScrollPanel style="width: 100%; height: 80vh" :dt="{bar:{background:'{primary.color}', size:'8px'}}">
     <div class="p-4 ml-4 card-container">
-      <div class="flex mb-4"  v-for="photo in photos" :key="photo.id">
-        <div class="card flex justify-center">
-          <Image :src="photo.url" :alt="photo.title" width="250" preview />
-          <!-- <p>{{ photo.url }}</p> -->
+
+      <!-- Skeleton Ekleme -->
+      <template v-if="loading">
+        <div class="flex mb-4" v-for="n in 6" :key="n">
+          <div class="card flex justify-center">
+            <Skeleton shape="rectangle" width="250px" height="250px" />
+          </div>
         </div>
-      </div>
+      </template>
+      <!-- Gerçek İçerik -->
+      <template v-else>
+        <div class="flex mb-4" v-for="photo in photos" :key="photo.id">
+          <div class="card flex justify-center">
+            <Image :src="photo.url" :alt="photo.title" width="250" preview />
+          </div>
+        </div>
+      </template>
     </div>
     </ScrollPanel>
 </template>
@@ -20,11 +31,13 @@ import { useAlbumStore } from '@/store/albums';
 import { usePhotoStore } from '@/store/photos';
 import { useUserStore } from '@/store/users';
 import { IconSquareRoundedArrowLeft } from '@tabler/icons-vue';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import Card from 'primevue/card';
 import Image from 'primevue/image';
 import ScrollPanel from 'primevue/scrollpanel';
+import Skeleton from 'primevue/skeleton';
+
 
 export default {
   components: {
@@ -32,6 +45,7 @@ export default {
       Card,
       Image,
       ScrollPanel,
+      Skeleton,
     },
   setup() {
     const albumStore = useAlbumStore();
@@ -42,10 +56,16 @@ export default {
     const userId = computed(() => Number(route.params.userId));
     const albumId = computed(() => Number(route.params.albumId));
 
+    const loading = ref(true);
+
     const router = useRouter();
 
-    onMounted(() => {
-      photoStore.fetchPhotos(albumId.value); // photos listesini API'den çekiyoruz
+    onMounted(async () => {
+      try {
+        await photoStore.fetchPhotos(albumId.value);
+      } finally {
+        loading.value = false;
+      }
     });
 
     const photos = computed(() => photoStore.allPhotos);
@@ -65,7 +85,7 @@ export default {
         }
   };
 
-    return { goAlbums, loadPhotos, photos, userId };
+    return { goAlbums, loadPhotos, photos, userId, loading  };
   },
 
 };
