@@ -19,6 +19,7 @@
   import Checkbox from 'primevue/checkbox';
   import { useRouter } from 'vue-router';
   import ScrollPanel from 'primevue/scrollpanel';
+  import { useUserStore } from '@/store/users';
 
 
   export default {
@@ -30,18 +31,27 @@
     setup() {
       const todoStore = useTodoStore();
       const router = useRouter();
+      const userStore = useUserStore();
 
-      onMounted(() => {
-        todoStore.fetchTodos(); // Yapılacaklar listesini API'den çekiyoruz
+      const selectedUser = computed(() => userStore.selectedUser);
+
+      onMounted(async() => {
+
+        if (!userStore.selectedUser) {
+          router.push('/'); // Kullanıcı doğrulanamazsa anasayfaya yönlendir
+        }
+        todoStore.fetchTodos(selectedUser.value.id);
+
       });
 
       const todos = computed(() => todoStore.allTodos); // Reaktif olarak yapılacakları al
 
       const goHome = () => {
+        userStore.clearSelectedUser();
         router.push('/'); // Burada AllUsers sayfasına yönlendirme yapıyoruz
       };
 
-      return { todos, goHome };
+      return {selectedUser ,todos, goHome };
     },
   };
   </script>

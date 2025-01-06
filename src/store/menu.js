@@ -23,19 +23,19 @@ export const useMenuStore = defineStore("menu", {
           label: "Todos",
           icon: IconCheckupList, // Direk Icon bileşeni
           view: "TodosList",
-          route: `/${userId}/todos`,
+          route: `/todos`,
           },
           {
           label: "Posts",
           icon: IconNotebook,
           view: "PostsList",
-          route: `/${userId}/posts`,
+          route: `/posts`,
           },
           {
           label: "Albums",
           icon: IconPhotoHeart,
           view: "AlbumsList",
-          route: `/${userId}/albums`,
+          route: `/albums`,
           },
       ];
       this.currentView = "TodosList"; // Varsayılan olarak Todos sayfasına geç

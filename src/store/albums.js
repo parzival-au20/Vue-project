@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
+import axiosInstance from '../plugins/axiosInstance';
 
 export const useAlbumStore = defineStore('albums', {
   state: () => ({
@@ -14,27 +14,15 @@ export const useAlbumStore = defineStore('albums', {
         return;
       }
       try {
-        const url = `https://jsonplaceholder.typicode.com/albums?userId=${userId}`;
-        const response = await axios.get(url);
+        const response = await axiosInstance.get(`/albums/?user=${userId}`);
         this.albums = response.data;
       } catch (error) {
         console.error('Albums API isteği başarısız:', error);
       }
     },
     selectAlbum(album) {
-      this.selectedAlbum = album; // Kullanıcıyı seç
-      localStorage.setItem("selectedAlbum", JSON.stringify(album));
+      this.selectedAlbum = album;
     },
-  },
-  persist: {
-    enabled: true, // Persist'i etkinleştir
-    strategies: [
-      {
-        key: 'selected-album', // Sadece selectedUser için özel anahtar
-        storage: localStorage,
-        paths: ['selectedAlbum'],
-      },
-    ],
   },
   getters: {
     allAlbums: (state) => state.albums,

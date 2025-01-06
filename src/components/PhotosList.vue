@@ -5,7 +5,6 @@
     </div>
     <ScrollPanel style="width: 100%; height: 80vh" :dt="{bar:{background:'{primary.color}', size:'8px'}}">
     <div class="p-4 ml-4 card-container">
-
       <!-- Skeleton Ekleme -->
       <template v-if="loading">
         <div class="flex mb-4" v-for="n in 6" :key="n">
@@ -53,8 +52,8 @@ export default {
     const userStore = useUserStore();
     const route = useRoute();
 
-    const userId = computed(() => Number(route.params.userId));
-    const albumId = computed(() => Number(route.params.albumId));
+    const selectedAlbum = computed(() => albumStore.selectedAlbum);
+    const albumId = computed(() => selectedAlbum.value?.id);
 
     const loading = ref(true);
 
@@ -72,7 +71,7 @@ export default {
     const albums = computed(() => albumStore.allAlbums);
 
     const goAlbums = () => {
-      router.push(`/${userId.value}/albums`);
+      router.push(`/albums`);
     };
 
     const loadPhotos = async (albumId) => {
@@ -85,7 +84,7 @@ export default {
         }
   };
 
-    return { goAlbums, loadPhotos, photos, userId, loading  };
+    return { goAlbums, loadPhotos, photos, loading  };
   },
 
 };

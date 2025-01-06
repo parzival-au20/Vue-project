@@ -77,10 +77,9 @@
       const users = computed(() => userStore.allUsers); // Reaktif olarak kullanıcıları al
       const imageSrc = require('@/assets/user2.png'); // assets klasöründeki görseli import ediyoruz
       const navigateToUser = (userId) => {
-        const selectedUser = users.value.find((u) => u.id === userId); // Kullanıcıyı bul
-        userStore.selectUser(selectedUser); // Store'da sakla
+        userStore.selectUser(userId);
         menuStore.setMenuForUser(userId);
-        router.push(`/${userId}/todos`);
+        router.push(`/todos`);
       };
     return {
       imageSrc, users, navigateToUser

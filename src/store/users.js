@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
+import axiosInstance from '../plugins/axiosInstance';
+
 
 export const useUserStore = defineStore('users', {
   state: () => ({
@@ -9,35 +10,23 @@ export const useUserStore = defineStore('users', {
   actions: {
     async fetchUsers() {
       try {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+        const response = await axiosInstance.get('/users/');
         this.users = response.data;
       } catch (error) {
         console.error('Users API isteği başarısız:', error);
       }
     },
-    selectUser(user) {
-      this.selectedUser = user; // Kullanıcıyı seç
-      localStorage.setItem("selectedUser", JSON.stringify(user));
+    selectUser(userId) {
+      this.selectedUser = this.allUsers.find(user => user.id === userId);
     },
-    loadSelectedUser() {
-      const storedUser = localStorage.getItem("selectedUser");
-      if (storedUser) {
-        this.selectedUser = JSON.parse(storedUser);
-
-      }
+    clearSelectedUser() {
+      this.selectedUser = null;
     },
-  },
-  persist: {
-    enabled: true, // Persist'i etkinleştir
-    strategies: [
-      {
-        key: 'selected-user', // Sadece selectedUser için özel anahtar
-        storage: localStorage,
-        paths: ['selectedUser'],
-      },
-    ],
   },
   getters: {
+    getUserById: (state) => (userId) => {
+      return state.allUsers.find(user => user.id === userId);
+    },
     allUsers: (state) => state.users,
   },
 });

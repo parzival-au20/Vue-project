@@ -13,25 +13,25 @@ const routes = [
     component: MainView
   },
   {
-    path: '/:userId/todos',
+    path: '/todos',
     name: 'UserTodos',
     component: TodoView,
     props: true,
   },
   {
-    path: '/:userId/posts',
+    path: '/posts',
     name: 'UserPosts',
     component: PostsView,
     props: true,
   },
   {
-    path: '/:userId/albums',
+    path: '/albums',
     name: 'UserGallery',
     component: AlbumView,
     props: true,
   },
   {
-    path: '/:userId/albums/:albumId/photos',
+    path: '/albums/photos',
     name: 'UserPhotos',
     component: PhotosView,
     props: true,

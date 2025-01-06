@@ -1,7 +1,25 @@
 <template>
-  <router-view/>
+  <div class="flex flex-row w-screen min-h-screen bg-white">
+  <div class="flex bg-[#F5F5F5]">
+    <Menu class="flex flex-1 flex-col w-64" />
+  </div>
+    <router-view/>
+  </div>
 </template>
 
+<script>
+  import Menu from '@/components/MenuComp.vue';
+
+export default {
+  components: {
+  Menu,
+},
+  setup() {
+
+    return { };
+  },
+};
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

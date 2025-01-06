@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
+import axiosInstance from '../plugins/axiosInstance';
 
 export const useTodoStore = defineStore('todos', {
   state: () => ({
@@ -13,8 +13,7 @@ export const useTodoStore = defineStore('todos', {
         return;
       }
       try {
-        const url = `https://jsonplaceholder.typicode.com/todos?userId=${userId}`;
-        const response = await axios.get(url);
+        const response = await axiosInstance.get(`/todos/?user=${userId}`);
         this.todos = response.data;
       } catch (error) {
         console.error('Todos API isteği başarısız:', error);

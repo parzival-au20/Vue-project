@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
+import axiosInstance from '../plugins/axiosInstance';
 
 export const usePostStore = defineStore('posts', {
   state: () => ({
@@ -13,10 +13,8 @@ export const usePostStore = defineStore('posts', {
         return;
       }
       try {
-        const url = `https://jsonplaceholder.typicode.com/posts?userId=${userId}`;
-        const response = await axios.get(url);
+        const response = await axiosInstance.get(`/posts/?user=${userId}`);
         this.posts = response.data;
-        console.log(this.posts);
       } catch (error) {
         console.error('Posts API isteği başarısız:', error);
       }

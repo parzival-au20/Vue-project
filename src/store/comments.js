@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
+import axiosInstance from '../plugins/axiosInstance';
 
 export const useCommentStore = defineStore('comments', {
   state: () => ({
@@ -14,27 +14,15 @@ export const useCommentStore = defineStore('comments', {
         return;
       }
       try {
-        const url = `https://jsonplaceholder.typicode.com/comments?postId=${postId}`;
-        const response = await axios.get(url);
+        const response = await axiosInstance.get(`/comments/?post=${postId}`);
         this.comments = response.data;
       } catch (error) {
         console.error('Comments API isteği başarısız:', error);
       }
     },
     selectPost(post) {
-        this.selectedPost = post; // Kullanıcıyı seç
-        localStorage.setItem("selectedPost", JSON.stringify(user));
+        this.selectedPost = post;
       },
-  },
-  persist: {
-    enabled: true, // Persist'i etkinleştir
-    strategies: [
-      {
-        key: 'selected-post', // Sadece selectedPost için özel anahtar
-        storage: localStorage,
-        paths: ['selectedPost'],
-      },
-    ],
   },
   getters: {
     allComments: (state) => state.comments,

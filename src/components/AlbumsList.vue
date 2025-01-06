@@ -29,7 +29,7 @@
  import { useUserStore } from '@/store/users';
  import { useMenuStore } from '@/store/menu';
   import { IconSquareRoundedArrowLeft } from '@tabler/icons-vue';
-  import { computed, onMounted } from 'vue';
+  import { computed, onMounted, watch } from 'vue';
   import { useRouter } from 'vue-router';
   import Card from 'primevue/card';
   import ScrollPanel from 'primevue/scrollpanel';
@@ -44,31 +44,34 @@
       const albumStore = useAlbumStore();
       const userStore = useUserStore();
       const menuStore = useMenuStore();
-
+      const router = useRouter();
       const selectedUser = computed(() => userStore.selectedUser);
       const userId = computed(() => selectedUser.value?.id);
 
-      const router = useRouter();
-
       onMounted(() => {
-        albumStore.fetchAlbums(); // Yapılacaklar listesini API'den çekiyoruz
-        userStore.loadSelectedUser();
+        albumStore.fetchAlbums();
       });
 
-      const albums = computed(() => albumStore.allAlbums); // Reaktif olarak yapılacakları al
+      const albums = computed(() => albumStore.allAlbums);
 
       const goHome = () => {
-        router.push('/'); // Burada AllUsers sayfasına yönlendirme yapıyoruz
+        userStore.clearSelectedUser();
+        router.push('/');
       };
 
       const navigateToPhotos = (albumId) => {
-        const selectedAlbum = albums.value.find((u) => u.id === albumId); // Kullanıcıyı bul
+        const selectedAlbum = albums.value.find((u) => u.id === albumId);
         albumStore.selectAlbum(selectedAlbum); // Store'da sakla
-        const menuItem = menuStore.menuItems.find(item => item.route === `/${userId.value}/albums`); // Albüm menü öğesini bulun
+        const menuItem = menuStore.menuItems.find(item => item.route === `/albums`); // Albüm menü öğesini bulun
         menuStore.selectItem(menuItem); // Albüm menüsünü seçili olarak işaretleyin
-        //menuStore.setMenuForUser(userId);
-        router.push(`/${userId.value}/albums/${albumId}/photos`);
+        router.push(`/albums/photos`);
       };
+
+      watch(userId, async (newUserId) => {
+        if (newUserId) {
+          await albumStore.fetchAlbums(newUserId); // userId geldiğinde todos verilerini çek
+        }
+      }, { immediate: true });
 
       return { albums, goHome, navigateToPhotos };
     },

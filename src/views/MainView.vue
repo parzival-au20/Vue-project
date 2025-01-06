@@ -1,9 +1,6 @@
 <template>
-  <div class="flex flex-row w-screen min-h-screen bg-white">
-      <Menu class="bg-[#F5F5F5] flex flex-col w-64"></Menu>
-    <div class="grow p-4 mr-[25px]">
-      <UsersList :is="currentView" :userId="selectedUserId" />
-    </div>
+  <div class="grow p-4 mr-[25px]">
+    <UsersList :is="currentView" :userId="selectedUserId" />
   </div>
 </template>
 
