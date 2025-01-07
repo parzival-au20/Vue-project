@@ -48,8 +48,6 @@
   import { useUserStore } from '@/store/users';
   import { computed, onMounted } from 'vue';
   import Card from 'primevue/card';
-  import Avatar from 'primevue/avatar';
-  import Image from 'primevue/image';
   import { IconMapPinHeart, IconWorldShare, IconBuildingSkyscraper } from '@tabler/icons-vue';
   import { useMenuStore } from "@/store/menu";
   import ScrollPanel from 'primevue/scrollpanel';
@@ -58,8 +56,6 @@
     props: ["users"],
     components: {
     Card,
-    Avatar,
-    Image,
     IconMapPinHeart,
     IconBuildingSkyscraper,
     IconWorldShare,
@@ -75,7 +71,7 @@
       });
 
       const users = computed(() => userStore.allUsers); // Reaktif olarak kullanıcıları al
-      const imageSrc = require('@/assets/user2.png'); // assets klasöründeki görseli import ediyoruz
+      const imageSrc = '/src/assets/user2.png'; // assets klasöründeki görseli import ediyoruz
       const navigateToUser = (userId) => {
         userStore.selectUser(userId);
         menuStore.setMenuForUser(userId);

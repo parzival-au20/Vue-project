@@ -1,7 +1,5 @@
-import { createStore } from 'vuex'
-import Vue from 'vue';
+import { createStore } from 'vuex'; // Vuex 4.x ile uyumlu
 import axios from 'axios';
-
 
 export default createStore({
   state: {

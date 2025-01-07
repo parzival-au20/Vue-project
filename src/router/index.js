@@ -4,7 +4,7 @@ import TodoView from '../views/TodoView.vue'
 import PostsView from '../views/PostsView.vue'
 import AlbumView from '../views/AlbumView.vue'
 import PhotosView from '../views/PhotoView.vue'
-import { useMenuStore } from "@/store/menu";
+import { useMenuStore } from "../store/menu";
 
 const routes = [
   {
@@ -40,7 +40,7 @@ const routes = [
 
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes
 })
 
